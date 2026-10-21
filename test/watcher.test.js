@@ -1,4 +1,4 @@
-import { check, done, eq, tempDir, writeFile, cleanup } from "./lib.js";
+import { check, done, eq, tempDir, writeFile, cleanup, removeFile } from "./lib.js";
 import { createWatcher, fingerprintFiles } from "../src/server/watcher.js";
 
 const root = tempDir("watcher");
@@ -34,7 +34,7 @@ writeFile(root + "/ignore.txt", "not watched\n");
 const fourth = watcher.pollNow();
 check("ignored extension", !fourth.changed);
 
-cleanup(root + "/c.md");
+removeFile(root + "/c.md");
 const fifth = watcher.pollNow();
 check("delete detected", fifth.changed);
 

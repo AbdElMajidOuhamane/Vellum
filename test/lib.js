@@ -52,26 +52,40 @@ export function throws(name /*: string */, fn /*: () => mixed */, needle /*: str
   }
 }
 
+function hasShell() /*: boolean */ {
+  return (
+    typeof child_process !== "undefined" &&
+    !!child_process &&
+    typeof child_process.execSync === "function"
+  );
+}
+
 function shellRemove(directory /*: string */) /*: void */ {
-  const quoted = "'" + directory.replace(/'/g, "'\\''") + "'";
-  if (typeof child_process === "undefined" || !child_process || typeof child_process.execSync !== "function") {
-    // ff releases <= 0.1.x lack child_process. Recursive fs.rm leaves a
-    // pending NotDir that breaks the next module import (see src/util/fs.js),
-    // so only delete regular files — the watcher's delete check — and leave
-    // directory cleanup to the ff version that has child_process.
-    if (fs.exists(directory) && fs.readdir(directory) === undefined) {
-      try {
-        fs.rm(directory);
-      } catch (_error) {
-        /* Best effort: the path may already be absent. */
-      }
-    }
+  if (!hasShell()) {
+    // ff releases <= 0.1.x lack child_process. Their fs functions do not
+    // throw on failure: they set a pending NotDir/FileNotFound error that
+    // aborts the next module import (see src/util/fs.js). Housekeeping
+    // removals are skipped rather than risking a poisoned runtime.
     return;
   }
+  const quoted = "'" + directory.replace(/'/g, "'\\''") + "'";
   try {
     child_process.execSync("rm -rf " + quoted);
   } catch (_error) {
     /* Best effort: the path may already be absent. */
+  }
+}
+
+export function removeFile(file /*: string */) /*: void */ {
+  // Call only with an existing regular file: a failing fs call in ff leaves
+  // a pending exception that breaks the next module import.
+  if (!fs.exists(file)) {
+    return;
+  }
+  try {
+    fs.rm(file);
+  } catch (_error) {
+    /* Best effort. */
   }
 }
 

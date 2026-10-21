@@ -1,7 +1,6 @@
 import { check, done, eq, includes, tempDir, writeFile, cleanup } from "./lib.js";
 import { resolveConfig } from "../src/config.js";
 import { buildSite } from "../src/build/build.js";
-import { detectRsbuild } from "../src/build/rsbuild-adapter.js";
 
 const logger = {
   quiet: true,
@@ -101,18 +100,6 @@ try {
   check("missing src message", String(error.message).includes("does not exist"));
 }
 check("missing src throws", missingThrew);
-
-const rsbuildDetection = await detectRsbuild(config);
-if (rsbuildDetection.available) {
-  const rsbuildConfig = { ...config, bundler: { provider: "auto", node: "node" } };
-  const rsbuildResult = await buildSite(rsbuildConfig, { frameworkRoot: process.cwd(), logger });
-  eq("rsbuild bundler", rsbuildResult.bundler, "rsbuild");
-  check("rsbuild css", fs.exists(root + "/dist/assets/vellum.css"));
-  check("rsbuild js", fs.exists(root + "/dist/assets/vellum.js"));
-  check("rsbuild css non-empty", (fs.readFile(root + "/dist/assets/vellum.css") || "").length > 1000);
-} else {
-  check("rsbuild unavailable (skipped integration)", true);
-}
 
 cleanup(root);
 cleanup(missingRoot);

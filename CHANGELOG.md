@@ -62,7 +62,8 @@ Initial release.
 - Scaffolded projects include `ff.json` and `vellum.js`; `ff start` runs
   the dev server through Fairyfly.
 - Added `findFrameworkRoot` and `runCli` public APIs for generated entries.
-- `ff imprint vellum-docs` is the primary dependency install; npm is optional.
+- `ff imprint github:AbdElMajidOuhamane/Vellum#v0.1.0` is the primary dependency
+  install; npm is optional.
 - Documented the distinction between `ff.json` (project manifest) and
   `package.json` (npm metadata / `node_modules` resolution).
 

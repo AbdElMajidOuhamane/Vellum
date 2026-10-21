@@ -55,17 +55,20 @@ metadata used by npm and by Fairyfly's `node_modules` resolution; it is not a
 Fairyfly project manifest, and the Vellum runtime does not use Node.
 
 ```sh
-# Install Vellum (npm is only the bootstrap here)
-npm install -g vellum-docs
+# Install the CLI from GitHub (npm is only the bootstrap here)
+npm install -g github:AbdElMajidOuhamane/Vellum#v0.1.0
 
 # Scaffold a site
 vellum new my-docs
 cd my-docs
 
 # Fairyfly-native install and run
-ff imprint vellum-docs
+ff imprint github:AbdElMajidOuhamane/Vellum#v0.1.0
 ff start
 ```
+
+Without npm, clone the repository and run
+`ff Vellum/bin/vellum.js new my-docs` from the clone's parent directory.
 
 `ff.json` points at `vellum.js`, which calls the Vellum CLI through
 Fairyfly. Open `http://localhost:4321/`. Edit `src/content/docs/index.md`; the dev
@@ -119,8 +122,9 @@ ff vellum.js check   # 46 pages, 237 links
 ff vellum.js build
 ```
 
-Both examples use the same `ff.json` + `vellum.js` shape as `vellum new`. On a
-published install, `setup-local.sh` is replaced by `ff imprint vellum-docs`.
+Both examples use the same `ff.json` + `vellum.js` shape as `vellum new`. On an
+installed project, `setup-local.sh` is replaced by
+`ff imprint github:AbdElMajidOuhamane/Vellum#v0.1.0`.
 
 A minimal site is just a config file and a Markdown file:
 

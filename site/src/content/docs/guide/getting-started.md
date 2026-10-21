@@ -17,7 +17,7 @@ Fairyfly only. Node.js, npm, Rsbuild, and Flow are optional tooling.
 | `ff` 0.2.0+ | Runs the Vellum CLI, content pipeline, renderer, dev server, and build |
 | Node.js 18+ | Optional; runs Rsbuild when you want bundled browser assets |
 | Flow 0.279+ | Optional; type-checks framework source |
-| npm | Optional; one way to install `vellum-docs` and `@rsbuild/core` |
+| npm | Optional; installs the CLI and `@rsbuild/core` from GitHub |
 
 Fairyfly is not Node.js. A Fairyfly project is described by **`ff.json`**, and
 dependencies are installed with **`ff imprint`**. `package.json` is npm metadata
@@ -38,13 +38,22 @@ curl -fsSL https://raw.githubusercontent.com/AbdElMajidOuhamane/ff/main/install.
 
 ## Scaffold a site
 
+The CLI runs on Fairyfly but is distributed from GitHub; npm is the simplest
+bootstrap, or run the checkout's entry directly.
+
 ```sh
+# Install the CLI (npm is only the bootstrap)
+npm install -g github:AbdElMajidOuhamane/Vellum#v0.1.0
+
 vellum new my-docs
 cd my-docs
 
 # Fairyfly-native dependency install
-ff imprint vellum-docs
+ff imprint github:AbdElMajidOuhamane/Vellum#v0.1.0
 ```
+
+Without npm, clone the repository and run
+`ff <checkout>/bin/vellum.js new my-docs` instead.
 
 `vellum new` writes a complete starter project:
 
@@ -63,10 +72,10 @@ my-docs/
       writing.md
 ```
 
-If you prefer npm, `npm install` also works. It additionally installs
-`@rsbuild/core` for the bundled browser pipeline. `ff imprint` installs only the
-pure-ESM runtime dependency, so an ff-only project uses the built-in asset
-pipeline.
+If you prefer npm, `npm install` also works; the scaffold's `package.json` points
+npm at the same GitHub tag. It additionally installs `@rsbuild/core` for the
+bundled browser pipeline. `ff imprint` installs only the pure-ESM runtime
+dependency, so an ff-only project uses the built-in asset pipeline.
 
 It refuses to write into a non-empty directory unless you pass `--force`:
 

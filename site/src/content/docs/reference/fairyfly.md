@@ -56,9 +56,10 @@ vellum.js       findFrameworkRoot + runCli
 package.json            optional npm scripts and dev dependencies
 ```
 
-`ff imprint vellum-docs` installs the pure-ESM framework. `@rsbuild/core` is a
-development-only Node package and is not installed by `ff imprint`; use the
-built-in asset pipeline or install it separately with npm.
+`ff imprint github:AbdElMajidOuhamane/Vellum#v0.1.0` installs the pure-ESM
+framework. `@rsbuild/core` is a development-only Node package and is not
+installed by `ff imprint`; use the built-in asset pipeline or install it
+separately with npm.
 
 ## Constraints that shaped Vellum
 

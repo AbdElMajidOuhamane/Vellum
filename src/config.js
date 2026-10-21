@@ -15,6 +15,7 @@ import {
   withTrailingSlash,
 } from "./util/path.js";
 import { exists, isDirectory, isFile, readText } from "./util/fs.js";
+import { VERSION } from "./version.js";
 
 /*::
 export type LoadConfigOptions = {
@@ -563,7 +564,11 @@ export function findFrameworkRoot(
 
   throw fail(
     "Could not locate the vellum-docs package.",
-    "Run `ff imprint vellum-docs` in the project root, or `npm install vellum-docs`.",
+    "Run `ff imprint github:AbdElMajidOuhamane/Vellum#v" +
+      VERSION +
+      "` in the project root, or `npm install github:AbdElMajidOuhamane/Vellum#v" +
+      VERSION +
+      "`.",
   );
 }
 
@@ -623,7 +628,7 @@ export async function loadConfig(options /*: LoadConfigOptions */ = {}) /*: Prom
       const message = error instanceof Error ? error.message : String(error);
       throw fail(
         "Could not load `" + configPath + "`: " + message,
-        "Config files are ES modules. Check the syntax and remove require()/module.exports.",
+        "Config files are ES modules. Remove CommonJS syntax (require and module exports).",
       );
     }
   }

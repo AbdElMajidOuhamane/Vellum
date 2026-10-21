@@ -4,6 +4,15 @@
   "description": "Markdown-first documentation framework built on Fairyfly.",
   "type": "module",
   "license": "MIT",
+  "author": "Vellum contributors",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AbdElMajidOuhamane/Vellum.git"
+  },
+  "homepage": "https://github.com/AbdElMajidOuhamane/Vellum",
+  "bugs": {
+    "url": "https://github.com/AbdElMajidOuhamane/Vellum/issues"
+  },
   "bin": {
     "vellum": "bin/vellum"
   },

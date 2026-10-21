@@ -3,6 +3,7 @@
 import { fail } from "../util/errors.js";
 import { ensureDir, isDirectory, isFile, listDir, writeText } from "../util/fs.js";
 import { basename, humanize, join, resolve } from "../util/path.js";
+import { VERSION } from "../version.js";
 
 /*::
 export type ScaffoldOptions = {
@@ -265,7 +266,7 @@ export function scaffoldProject(options /*: ScaffoldOptions */) /*: Array<string
         },
         devDependencies: {
           "@rsbuild/core": "^1.7.6",
-          "vellum-docs": "^0.1.0",
+          "vellum-docs": "github:AbdElMajidOuhamane/Vellum#v" + VERSION,
         },
       },
       null,
@@ -281,7 +282,7 @@ export function scaffoldProject(options /*: ScaffoldOptions */) /*: Array<string
     "# " + title + "\n\n" +
       "Documentation site built with Vellum on Fairyfly.\n\n" +
       "## Fairyfly (recommended)\n\n" +
-      "```sh\nff imprint vellum-docs\nff start\n```\n\n" +
+      "```sh\nff imprint github:AbdElMajidOuhamane/Vellum#v" + VERSION + "\nff start\n```\n\n" +
       "`ff.json` points at `vellum.js`; `ff start` runs the dev server.\n\n" +
       "```sh\nff vellum.js build\nff vellum.js preview\nff vellum.js check\n```\n\n" +
       "## npm (optional)\n\n" +
@@ -296,7 +297,7 @@ export function scaffoldProject(options /*: ScaffoldOptions */) /*: Array<string
   }
   options.logger.info("\u2713 Scaffolded " + title + " in `" + root + "`.");
   options.logger.info(
-    "  \u2022 next: cd " + options.directory + " && ff imprint vellum-docs && ff start",
+    "  \u2022 next: cd " + options.directory + " && ff imprint github:AbdElMajidOuhamane/Vellum#v" + VERSION + " && ff start",
   );
   return written;
 }

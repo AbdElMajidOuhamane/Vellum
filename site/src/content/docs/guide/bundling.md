@@ -18,11 +18,11 @@ Fairyfly.
 
 ## Fairyfly-only build
 
-If you install with `ff imprint vellum-docs` and do not install Rsbuild, no Node
-process is involved:
+If you install with `ff imprint github:AbdElMajidOuhamane/Vellum#v0.1.0` and do
+not install Rsbuild, no Node process is involved:
 
 ```sh
-ff imprint vellum-docs
+ff imprint github:AbdElMajidOuhamane/Vellum#v0.1.0
 ff vellum.js build
 ```
 

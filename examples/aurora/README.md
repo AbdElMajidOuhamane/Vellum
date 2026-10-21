@@ -20,11 +20,11 @@ install without npm.
 
 ## Run as a real project
 
-After `vellum-docs` is published:
+Install from the GitHub tag:
 
 ```sh
 cd examples/aurora
-ff imprint vellum-docs
+ff imprint github:AbdElMajidOuhamane/Vellum#v0.1.0
 ff start
 ```
 

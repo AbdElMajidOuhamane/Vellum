@@ -55,17 +55,16 @@ export function throws(name /*: string */, fn /*: () => mixed */, needle /*: str
 function shellRemove(directory /*: string */) /*: void */ {
   const quoted = "'" + directory.replace(/'/g, "'\\''") + "'";
   if (typeof child_process === "undefined" || !child_process || typeof child_process.execSync !== "function") {
-    // ff releases <= 0.1.x predate the child_process API. Fall back to the
-    // native rm, then clear ff's pending-error quirk (see src/util/fs.js).
-    try {
-      fs.rm(directory, true);
-    } catch (_error) {
-      /* Best effort: the path may already be absent. */
-    }
-    try {
-      fs.mkdir(directory, true);
-    } catch (_error) {
-      /* mkdir fails when the target was a file path — fine. */
+    // ff releases <= 0.1.x lack child_process. Recursive fs.rm leaves a
+    // pending NotDir that breaks the next module import (see src/util/fs.js),
+    // so only delete regular files — the watcher's delete check — and leave
+    // directory cleanup to the ff version that has child_process.
+    if (fs.exists(directory) && fs.readdir(directory) === undefined) {
+      try {
+        fs.rm(directory);
+      } catch (_error) {
+        /* Best effort: the path may already be absent. */
+      }
     }
     return;
   }

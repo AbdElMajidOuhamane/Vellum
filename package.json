@@ -30,7 +30,7 @@
     "check:content": "ff bin/vellum.js check --config site/vellum.config.js",
     "check:flow": "flow check --max-warnings 0 --sharedmemory-heap-size 1073741824",
     "check": "npm run check:flow && npm run check:content",
-    "test": "ff test",
+    "test": "sh test/run.sh",
     "verify": "npm run check && npm test && npm run build"
   },
   "devDependencies": {

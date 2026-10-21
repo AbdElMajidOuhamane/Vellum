@@ -171,8 +171,9 @@ export async function buildWithRsbuild(
   if (result.code !== 0) {
     const detail = (result.stderr || result.stdout).trim().split("\n").slice(-18).join("\n");
     throw fail(
-      "Rsbuild failed with exit code " + String(result.code) + ".",
-      detail || "Run the build with --verbose to inspect the generated configuration.",
+      "Rsbuild failed with exit code " + String(result.code) + "." +
+        (detail ? "\n" + detail : ""),
+      "Run the build with --verbose to inspect the generated configuration.",
     );
   }
 

@@ -1,0 +1,8 @@
+{
+  "name": "vellum-docs",
+  "version": "0.1.0",
+  "description": "Markdown-first documentation framework built on Fairyfly.",
+  "main": "bin/vellum.js",
+  "author": "Vellum contributors",
+  "license": "MIT"
+}

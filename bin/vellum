@@ -1,0 +1,31 @@
+#!/bin/sh
+# Vellum CLI launcher. Fairyfly does not accept shebangs in JavaScript
+# modules, so this POSIX wrapper resolves its own location and runs the
+# runtime explicitly.
+set -e
+
+script="$0"
+while [ -h "$script" ]; do
+  dir=$(CDPATH= cd "$(dirname "$script")" && pwd)
+  link=$(readlink "$script")
+  case "$link" in
+    /*) script="$link" ;;
+    *) script="$dir/$link" ;;
+  esac
+done
+
+root=$(CDPATH= cd "$(dirname "$script")/.." && pwd)
+user_cwd=$(pwd)
+ff_bin="${VELLUM_FF_BIN:-ff}"
+
+if ! command -v "$ff_bin" >/dev/null 2>&1; then
+  echo "error: Fairyfly (ff) was not found on PATH." >&2
+  echo "hint: install it from https://github.com/AbdElMajidOuhamane/ff or set VELLUM_FF_BIN." >&2
+  exit 1
+fi
+
+# Fairyfly mishandles relative imports when the entry is an absolute path.
+# Launch from the package root with a relative entry, then restore the caller's
+# working directory inside bin/vellum.js before parsing paths.
+cd "$root" || exit 1
+VELLUM_ROOT="$root" VELLUM_CWD="$user_cwd" exec "$ff_bin" "bin/vellum.js" "$@"

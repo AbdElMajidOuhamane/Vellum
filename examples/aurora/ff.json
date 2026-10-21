@@ -1,0 +1,8 @@
+{
+  "name": "aurora-docs",
+  "version": "0.1.0",
+  "description": "Aurora example documentation site built with Vellum.",
+  "main": "vellum.js",
+  "author": "",
+  "license": "MIT"
+}

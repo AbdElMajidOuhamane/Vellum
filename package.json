@@ -1,0 +1,47 @@
+{
+  "name": "vellum-docs",
+  "version": "0.1.0",
+  "description": "Markdown-first documentation framework built on Fairyfly.",
+  "type": "module",
+  "license": "MIT",
+  "bin": {
+    "vellum": "bin/vellum"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./config": "./src/config.js",
+    "./content": "./src/content/markdown.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "bin",
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "ff": ">=0.2.0"
+  },
+  "scripts": {
+    "dev": "ff bin/vellum.js dev --config site/vellum.config.js",
+    "build": "ff bin/vellum.js build --config site/vellum.config.js",
+    "preview": "ff bin/vellum.js preview --config site/vellum.config.js",
+    "check:content": "ff bin/vellum.js check --config site/vellum.config.js",
+    "check:flow": "flow check --max-warnings 0 --sharedmemory-heap-size 1073741824",
+    "check": "npm run check:flow && npm run check:content",
+    "test": "ff test",
+    "verify": "npm run check && npm test && npm run build"
+  },
+  "devDependencies": {
+    "@rsbuild/core": "^1.7.6"
+  },
+  "keywords": [
+    "documentation",
+    "markdown",
+    "static-site",
+    "fairyfly",
+    "flow",
+    "rsbuild"
+  ]
+}

@@ -54,6 +54,21 @@ export function throws(name /*: string */, fn /*: () => mixed */, needle /*: str
 
 function shellRemove(directory /*: string */) /*: void */ {
   const quoted = "'" + directory.replace(/'/g, "'\\''") + "'";
+  if (typeof child_process === "undefined" || !child_process || typeof child_process.execSync !== "function") {
+    // ff releases <= 0.1.x predate the child_process API. Fall back to the
+    // native rm, then clear ff's pending-error quirk (see src/util/fs.js).
+    try {
+      fs.rm(directory, true);
+    } catch (_error) {
+      /* Best effort: the path may already be absent. */
+    }
+    try {
+      fs.mkdir(directory, true);
+    } catch (_error) {
+      /* mkdir fails when the target was a file path — fine. */
+    }
+    return;
+  }
   try {
     child_process.execSync("rm -rf " + quoted);
   } catch (_error) {

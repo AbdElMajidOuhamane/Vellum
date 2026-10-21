@@ -62,10 +62,9 @@ function hasShell() /*: boolean */ {
 
 function shellRemove(directory /*: string */) /*: void */ {
   if (!hasShell()) {
-    // ff releases <= 0.1.x lack child_process. Their fs functions do not
-    // throw on failure: they set a pending NotDir/FileNotFound error that
-    // aborts the next module import (see src/util/fs.js). Housekeeping
-    // removals are skipped rather than risking a poisoned runtime.
+    // ff <= 0.1.x fs failures set a pending exception that aborts the next
+    // module import (see src/util/fs.js). Housekeeping removals are skipped
+    // on that runtime; every suite runs in its own process (test/run.sh).
     return;
   }
   const quoted = "'" + directory.replace(/'/g, "'\\''") + "'";
@@ -77,8 +76,8 @@ function shellRemove(directory /*: string */) /*: void */ {
 }
 
 export function removeFile(file /*: string */) /*: void */ {
-  // Call only with an existing regular file: a failing fs call in ff leaves
-  // a pending exception that breaks the next module import.
+  // Only for an existing regular file: the success path leaves no pending
+  // error in runtimes where fs failures abort the next module import.
   if (!fs.exists(file)) {
     return;
   }
@@ -125,8 +124,7 @@ export function done(suite /*: string */) /*: void */ {
     console.log("PASS " + suite + " (" + String(total) + " checks)");
     return;
   }
-  // ff test evaluates each file in one runtime. Throwing marks this file as
-  // failed without preventing later suites from running.
+  // Each suite runs in its own ff process (test/run.sh); throwing exits 1.
   throw new Error(
     "FAIL " + suite + " (" + String(failed) + "/" + String(total) + " checks failed)",
   );
